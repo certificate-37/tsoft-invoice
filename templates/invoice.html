@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>Facture</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Courier+Prime:wght@400;700&display=swap');
+
+/* ================= PRINT SETUP ================= */
+@page {
+    size: A4;
+    margin: 10mm;
+}
+
+@font-face {
+    font-family: "Vladimir Script";
+    src: url("fonts/VladimirScript.ttf");
+}
+@font-face {
+    font-family: "Roman Bold Italic";
+    src: url("fonts/romanboldit.otf");
+}
+@font-face {
+    font-family: "Cooper Black";
+    src: url("fonts/CooperBlackItalic.otf");
+}
+
+/* ================= GLOBAL ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #ddd;
+}
+
+/* ================= PAGE (PAPER LOOK) ================= */
+.page {
+    width: 190mm;
+    min-height: 277mm;
+    margin: 0 auto;
+    padding: 10mm;
+    background: white;
+    box-shadow: none;
+    position: relative;
+}
+
+/* ================= HEADER ================= */
+.header-box {
+    text-align: center;
+    border: 2px solid #333;
+    padding: 6px 10px;
+    margin-bottom: 8mm;
+    background: repeating-linear-gradient(
+        -45deg,
+        #f5f5f5,
+        #f5f5f5 2px,
+        #ebebeb 2px,
+        #ebebeb 6px
+    );
+}
+
+.company-name {
+    font-family: "Vladimir Script", cursive;
+    font-size: 22px;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.company-tagline {
+    font-size: 15px;
+    font-weight: 550;
+    margin-top: 3px;
+    font-style: italic;
+}
+
+.header-divider {
+    height: 1px;
+    background: #000;
+    margin: 6px -10px;
+}
+
+/* ================= TOP INFO ================= */
+.info-row {
+    display: grid;
+    grid-template-columns: 1fr 70mm;
+    gap: 10mm;
+    margin-bottom: 6mm;
+}
+
+.supplier-info {
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1.6;
+    font-family: "Roman Bold Italic", serif;
+}
+
+.supplier-info .line {
+    display: block;
+}
+
+.invoice-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.invoice-title-box {
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 6px;
+}
+
+/* ================= CLIENT BOX GREY BACKGROUND ================= */
+/* ================= CLIENT BOX GREY BACKGROUND ================= */
+.client-box {
+    border: none;  /* Remove outer border from container */
+    padding: 0;
+    text-align: center;
+    background-color: #e0e0e0;
+    overflow: hidden;
+}
+
+.client-box div {
+    padding: 6px;
+    border-left: 1.5px solid #000;
+    border-right: 1.5px solid #000;  /* Black border on all sides of each div */
+}
+
+.client-box div:first-child {
+    background-color: #d1d1d1;
+    border-bottom: none;
+    border-top: 1.5px solid #000;
+    border-right: 1.5px solid #000;  /* Remove bottom border so no double line */
+}
+
+.client-name {
+    font-family: 'Amiri', serif;
+    font-weight: 700;
+    direction: rtl;
+    background-color: #e0e0e0;
+    padding: 6px;
+    margin: 0;
+    border-top: none;                 /* NO top border */
+    border-bottom: 1.5px solid #000000;  /* Remove top border so no double line */
+}
+.date-line {
+    margin-top: 8mm;
+    font-family: "Cooper Black", serif;
+}
+
+/* ================= TABLE ================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    border: 1px solid #555;
+    font-size: 11px;
+    padding: 5px;
+    font-family: "Roman Bold Italic", serif;
+    background-color: #e0e0e0;
+}
+
+/* Top border of first row */
+tbody tr:first-child td {
+    border-top: 1px solid #555;
+}
+
+/* Bottom border of last row */
+tbody tr:last-child td {
+    border-bottom: 1px solid #555;
+}
+
+/* Left border for all cells */
+td {
+    border-left: 1px solid #555;
+    border-right: 1px solid #555;
+    font-size: 11px;
+    padding: 5px;
+    font-family: "Roman Bold Italic", serif;
+}
+
+/* Dashed border BETWEEN rows (top and bottom of each item row) */
+tbody tr td {
+    border-top: 1px dashed #aaa;  /* Dashed between rows */
+    border-bottom: 1px dashed #aaa;  /* Dashed between rows */
+}
+
+/* Remove duplicate borders */
+tbody tr:first-child td {
+    border-top: 1px solid #555;  /* Solid top border for first row */
+}
+
+tbody tr:last-child td {
+    border-bottom: 1px solid #555;  /* Solid bottom border for last row */
+}
+
+/* First column special styling */
+td:first-child {
+    border-left: 1px solid #555;
+    text-align: center;
+}
+
+.designation-cell {
+    /* No extra border needed */
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+/* ================= TOTALS ================= */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table td {
+    border: 1px solid #555;
+    padding: 5px;
+    background:#bdbdbd;
+}
+
+.label-cell {
+    font-weight: bold;
+    background: #f5f5f5;
+    text-align: center;
+}
+
+.value-cell {
+    text-align: right;
+}
+
+.total-ttc-row td {
+    font-weight: bold;
+    background: #eee;
+    background:#bdbdbd;
+}
+
+/* ================= BOTTOM ================= */
+.bottom-section {
+    margin-top: 10mm;
+}
+
+.arretee-section {
+    margin-bottom: 8mm;
+}
+
+.signature-section {
+    text-align: right;
+    width: 100%;
+}
+
+.signature-section {
+    font-family: "Cooper Black", serif;
+    margin-left: -33mm;
+}
+
+/* avoid row breaking */
+tbody tr {
+    page-break-inside: avoid;
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<!-- HEADER -->
+<div class="header-box">
+    <div class="company-name">T.SOFT INFORMATIQUE</div>
+    <div class="header-divider"></div>
+    <div class="company-tagline">
+        Vente et Réparation Matériel Informatique, Bureautique<br>
+        Installation Des Réseaux
+    </div>
+</div>
+
+<!-- INFO -->
+<div class="info-row">
+
+    <div class="supplier-info">
+        <span class="line"><strong>NOUADJI ZINEB</strong></span>
+        <span class="line">RC N: 37/00-3216758 16</span>
+        <span class="line">N FISCALE: 291370100076152</span>
+        <span class="line">HAI ANASSR TINDOUF</span>
+        <span class="line">NIS N: 281370100076/38</span>
+        <span class="line">COMPTE BNA TINDOUF N: 001 00411 0300 001 333/39</span>
+        <span class="line">TEL: 049 37 43 43</span>
+    </div>
+
+    <div class="invoice-meta">
+        <div class="invoice-title-box">
+            FACTURE N° {{ "%03d" | format(invoice_id) }}/{{ date[:4] }}
+        </div>
+
+        <div class="client-box">
+            <div>DOIT :</div>
+            <div class="client-name">{{ client }}</div>
+        </div>
+
+        <div class="date-line">
+            <u>TINDOUF LE:</u>
+        </div>
+    </div>
+
+</div>
+
+<!-- MAIN TABLE -->
+<table>
+    <thead>
+        <tr>
+            <th>N</th>
+            <th>DESIGNATION</th>
+            <th>Unite</th>
+            <th>Qte</th>
+            <th>P.U</th>
+            <th>MONTANT</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ "%02d" | format(loop.index) }}</td>
+            <td class="designation-cell">{{ item.name }}</td>
+            <td class="center">U</td>
+            <td class="center">{{ item.qty }}</td>
+            <!-- PU (formatted) -->
+            <td class="right">
+                {{ "{:,.2f}".format(item.unit_price)
+                    .replace(",", "X")
+                    .replace(".", ",")
+                    .replace("X", ".") }}
+            </td>
+            <!-- MONTANT (formatted) -->
+            <td class="right">
+                {{ "{:,.2f}".format(item.qty * item.unit_price)
+                    .replace(",", "X")
+                    .replace(".", ",")
+                    .replace("X", ".") }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+    <!-- TOTALS SECTION - No empty space, directly attached to items -->
+    <tbody>
+        <tr>
+            <!-- Leave first 2 columns (N and DESIGNATION) empty with no borders -->
+            <td colspan="2" style="border: none;"></td>
+            
+            <!-- Totals table spans across the remaining 4 columns (Unite, Qte, P.U, MONTANT) -->
+            <td colspan="4" style="border: none; padding: 0;">
+                <div class="totals-section" style="display: flex; justify-content: flex-end;">
+                    <table class="totals-table" style="width: 100%;">
+                        <tr>
+                            <td class="label-cell" style="width: 50%;">TOTAL</td>
+                            <td class="value-cell" style="width: 50%;">
+                                {{ "{:,.2f}".format(total)
+                                    .replace(",", "X")
+                                    .replace(".", ",")
+                                    .replace("X", ".") }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">TVA 19%</td>
+                            <td class="value-cell">
+                                {{ "{:,.2f}".format(0)
+                                    .replace(",", "X")
+                                    .replace(".", ",")
+                                    .replace("X", ".") }}
+                            </td>
+                        </tr>
+                        <tr class="total-ttc-row">
+                            <td class="label-cell">TOTAL TTC</td>
+                            <td class="value-cell">
+                                {{ "{:,.2f}".format(total)
+                                    .replace(",", "X")
+                                    .replace(".", ",")
+                                    .replace("X", ".") }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- BOTTOM -->
+<div class="bottom-section">
+    <div class="arretee-section">
+        Arretee la presente facture a la somme de:
+    </div>
+
+    <div class="signature-section">
+        <div style="text-align:right; margin-top:10mm;">
+            <u>LE FOURNISSEUR:</u>
+        </div>
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>

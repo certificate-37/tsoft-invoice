@@ -1,0 +1,565 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T.SOFT INFORMATIQUE | Générateur de Factures</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-subtitle {
+            font-size: 0.8rem;
+            color: #718096;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #667eea;
+        }
+
+        .btn-dashboard {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .btn-dashboard:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Main Card */
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        /* Items Section */
+        .items-section {
+            margin: 2rem 0;
+        }
+
+        .items-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .items-header h3 {
+            font-size: 1.2rem;
+            color: #2d3748;
+        }
+
+        .btn-add {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-add:hover {
+            background: #38a169;
+        }
+
+        .item-card {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-remove {
+            background: #fc8181;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-remove:hover {
+            background: #f56565;
+        }
+
+        /* Summary */
+        .summary {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-top: 2px solid #cbd5e0;
+        }
+
+        /* Buttons */
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Alert */
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert-success {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 1px solid #9ae6b4;
+        }
+
+        .alert-error {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #fc8181;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .item-grid {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            
+            .container {
+                padding: 5rem 1rem 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                T.SOFT INFORMATIQUE
+                <span class="logo-subtitle">Vente & Réparation Informatique</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Nouvelle Facture</a>
+                <a href="/dashboard" class="nav-link">Tableau de Bord</a>
+                <a href="/dashboard" class="btn-dashboard">
+                    <i class="fas fa-chart-line"></i> Voir Factures
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Générateur de Factures Professionnel</h1>
+            <p>Créez des factures magnifiques en quelques secondes</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-file-invoice"></i> Nouvelle Facture</h2>
+            </div>
+            <div class="card-body">
+                <div id="alert" class="alert"></div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Nom du Client</label>
+                    <input type="text" id="clientName" placeholder="Entrez le nom du client" required>
+                </div>
+
+                <div class="items-section">
+                    <div class="items-header">
+                        <h3><i class="fas fa-shopping-cart"></i> Articles & Services</h3>
+                        <button class="btn-add" onclick="addItem()">
+                            <i class="fas fa-plus"></i> Ajouter un Article
+                        </button>
+                    </div>
+                    <div id="itemsList"></div>
+                </div>
+
+                <div id="summary" class="summary" style="display: none;"></div>
+
+                <button class="btn-submit" onclick="generateInvoice()">
+                    <i class="fas fa-download"></i> Générer la Facture
+                </button>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 1rem;">Génération de votre facture...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let items = [];
+
+        // Helper function to format numbers (French format)
+        function formatNumberFR(number) {
+            // Format: 8 500,00 or 65 347,00
+            return number.toLocaleString('fr-DZ', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        function parseNumberFR(value) {
+            // Parse French formatted number (removes spaces, replaces comma with dot)
+            if (!value) return 0;
+            // Remove spaces and replace comma with dot
+            let cleanValue = value.toString().replace(/\s/g, '').replace(',', '.');
+            return parseFloat(cleanValue) || 0;
+        }
+
+        function addItem(name = '', qty = 1, price = 0) {
+            items.push({
+                id: Date.now(),
+                name: name,
+                qty: qty,
+                unit_price: price
+            });
+            renderItems();
+        }
+
+        function removeItem(id) {
+            items = items.filter(item => item.id !== id);
+            renderItems();
+        }
+
+        function updateItem(id, field, value) {
+            const item = items.find(i => i.id === id);
+            if (item) {
+                if (field === 'qty') {
+                    item.qty = parseInt(value) || 0;
+                } else if (field === 'unit_price') {
+                    item.unit_price = parseNumberFR(value);
+                }
+                renderItems();
+            }
+        }
+
+        function updateItemName(id, value) {
+            const item = items.find(i => i.id === id);
+            if (item) {
+                item.name = value;
+            }
+        }
+
+        function renderItems() {
+            const container = document.getElementById('itemsList');
+            if (items.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #a0aec0;">Aucun article ajouté. Cliquez sur "Ajouter un Article" pour commencer.</p>';
+                document.getElementById('summary').style.display = 'none';
+                return;
+            }
+
+            container.innerHTML = items.map(item => `
+                <div class="item-card">
+                    <div class="item-grid">
+                        <input type="text" 
+                               placeholder="Nom de l'article" 
+                               value="${item.name.replace(/"/g, '&quot;')}"
+                               onchange="updateItemName(${item.id}, this.value)"
+                               style="width: 100%;">
+                        <input type="number" 
+                               placeholder="Quantité" 
+                               value="${item.qty}"
+                               onchange="updateItem(${item.id}, 'qty', this.value)"
+                               min="1">
+                        <input type="text" 
+                               placeholder="Prix Unitaire (DA)" 
+                               value="${formatNumberFR(item.unit_price)}"
+                               onchange="updateItem(${item.id}, 'unit_price', this.value)"
+                               style="text-align: right;">
+                        <button class="btn-remove" onclick="removeItem(${item.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const subtotal = items.reduce((sum, item) => sum + (item.qty * item.unit_price), 0);
+            const total = subtotal;
+            
+            const summaryHtml = `
+                <h3 style="margin-bottom: 1rem;">Résumé de la Facture</h3>
+                ${items.map(item => `
+                    <div class="summary-item">
+                        <span>${item.name} x ${item.qty}</span>
+                        <span>${formatNumberFR(item.qty * item.unit_price)} DA</span>
+                    </div>
+                `).join('')}
+                <div class="summary-total">
+                    <strong>Total TTC</strong>
+                    <strong>${formatNumberFR(total)} DA</strong>
+                </div>
+            `;
+            
+            document.getElementById('summary').innerHTML = summaryHtml;
+            document.getElementById('summary').style.display = 'block';
+        }
+
+        async function generateInvoice() {
+            const clientName = document.getElementById('clientName').value.trim();
+            
+            if (!clientName) {
+                showAlert('Veuillez entrer le nom du client', 'error');
+                return;
+            }
+            
+            if (items.length === 0) {
+                showAlert('Veuillez ajouter au moins un article', 'error');
+                return;
+            }
+            
+            const validItems = items.filter(item => item.name && item.qty > 0 && item.unit_price >= 0);
+            if (validItems.length === 0) {
+                showAlert('Veuillez remplir correctement tous les détails des articles', 'error');
+                return;
+            }
+            
+            const total = validItems.reduce((sum, item) => sum + (item.qty * item.unit_price), 0);
+            
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.btn-submit').disabled = true;
+            
+            try {
+                const response = await fetch('/api/create-invoice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        client: clientName,
+                        items: validItems.map(item => ({
+                            ...item,
+                            unit_price: item.unit_price
+                        })),
+                        total: total
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('Facture générée avec succès !', 'success');
+                    setTimeout(() => {
+                        window.location.href = `/dashboard?invoice=${data.invoice_id}`;
+                    }, 1500);
+                } else {
+                    showAlert('Erreur : ' + data.error, 'error');
+                }
+            } catch (error) {
+                showAlert('Erreur lors de la génération de la facture', 'error');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.querySelector('.btn-submit').disabled = false;
+            }
+        }
+        
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+            alert.style.display = 'block';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Add initial empty item
+        addItem('', 1, 0);
+    </script>
+</body>
+</html>
