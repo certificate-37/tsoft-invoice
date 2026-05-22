@@ -1,4 +1,3 @@
-# invoice.py - Updated with French number formatting
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML
 from datetime import datetime
@@ -58,7 +57,9 @@ def generate_invoice(invoice_id, client, items, total):
     file_path = os.path.join(INVOICES_DIR, f"invoice_{invoice_id}.pdf")
     
     try:
-        HTML(string=html_content, base_url=os.path.join(BASE_DIR, "templates")).write_pdf(file_path)
+        # FIXED: Correct way to call WeasyPrint HTML
+        html = HTML(string=html_content, base_url=os.path.join(BASE_DIR, "templates"))
+        html.write_pdf(file_path)
         return file_path
     except Exception as e:
         print(f"Error generating PDF: {e}")

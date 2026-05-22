@@ -6,8 +6,6 @@
 <title>Facture</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Courier+Prime:wght@400;700&display=swap');
-
 /* ================= PRINT SETUP ================= */
 @page {
     size: A4;
@@ -116,10 +114,8 @@ body {
     margin-bottom: 6px;
 }
 
-/* ================= CLIENT BOX GREY BACKGROUND ================= */
-/* ================= CLIENT BOX GREY BACKGROUND ================= */
 .client-box {
-    border: none;  /* Remove outer border from container */
+    border: none;
     padding: 0;
     text-align: center;
     background-color: #e0e0e0;
@@ -129,14 +125,14 @@ body {
 .client-box div {
     padding: 6px;
     border-left: 1.5px solid #000;
-    border-right: 1.5px solid #000;  /* Black border on all sides of each div */
+    border-right: 1.5px solid #000;
 }
 
 .client-box div:first-child {
     background-color: #d1d1d1;
     border-bottom: none;
     border-top: 1.5px solid #000;
-    border-right: 1.5px solid #000;  /* Remove bottom border so no double line */
+    border-right: 1.5px solid #000;
 }
 
 .client-name {
@@ -146,8 +142,8 @@ body {
     background-color: #e0e0e0;
     padding: 6px;
     margin: 0;
-    border-top: none;                 /* NO top border */
-    border-bottom: 1.5px solid #000000;  /* Remove top border so no double line */
+    border-top: none;
+    border-bottom: 1.5px solid #000000;
 }
 .date-line {
     margin-top: 8mm;
@@ -168,17 +164,14 @@ th {
     background-color: #e0e0e0;
 }
 
-/* Top border of first row */
 tbody tr:first-child td {
     border-top: 1px solid #555;
 }
 
-/* Bottom border of last row */
 tbody tr:last-child td {
     border-bottom: 1px solid #555;
 }
 
-/* Left border for all cells */
 td {
     border-left: 1px solid #555;
     border-right: 1px solid #555;
@@ -187,29 +180,22 @@ td {
     font-family: "Roman Bold Italic", serif;
 }
 
-/* Dashed border BETWEEN rows (top and bottom of each item row) */
 tbody tr td {
-    border-top: 1px dashed #aaa;  /* Dashed between rows */
-    border-bottom: 1px dashed #aaa;  /* Dashed between rows */
+    border-top: 1px dashed #aaa;
+    border-bottom: 1px dashed #aaa;
 }
 
-/* Remove duplicate borders */
 tbody tr:first-child td {
-    border-top: 1px solid #555;  /* Solid top border for first row */
+    border-top: 1px solid #555;
 }
 
 tbody tr:last-child td {
-    border-bottom: 1px solid #555;  /* Solid bottom border for last row */
+    border-bottom: 1px solid #555;
 }
 
-/* First column special styling */
 td:first-child {
     border-left: 1px solid #555;
     text-align: center;
-}
-
-.designation-cell {
-    /* No extra border needed */
 }
 
 .center {
@@ -244,8 +230,7 @@ td:first-child {
 
 .total-ttc-row td {
     font-weight: bold;
-    background: #eee;
-    background:#bdbdbd;
+    background: #bdbdbd;
 }
 
 /* ================= BOTTOM ================= */
@@ -267,7 +252,6 @@ td:first-child {
     margin-left: -33mm;
 }
 
-/* avoid row breaking */
 tbody tr {
     page-break-inside: avoid;
 }
@@ -338,60 +322,29 @@ tbody tr {
             <td class="designation-cell">{{ item.name }}</td>
             <td class="center">U</td>
             <td class="center">{{ item.qty }}</td>
-            <!-- PU (formatted) -->
-            <td class="right">
-                {{ "{:,.2f}".format(item.unit_price)
-                    .replace(",", "X")
-                    .replace(".", ",")
-                    .replace("X", ".") }}
-            </td>
-            <!-- MONTANT (formatted) -->
-            <td class="right">
-                {{ "{:,.2f}".format(item.qty * item.unit_price)
-                    .replace(",", "X")
-                    .replace(".", ",")
-                    .replace("X", ".") }}
-            </td>
+            <td class="right">{{ item.unit_price_formatted }}</td>
+            <td class="right">{{ item.subtotal_formatted }}</td>
         </tr>
         {% endfor %}
     </tbody>
     
-    <!-- TOTALS SECTION - No empty space, directly attached to items -->
     <tbody>
         <tr>
-            <!-- Leave first 2 columns (N and DESIGNATION) empty with no borders -->
             <td colspan="2" style="border: none;"></td>
-            
-            <!-- Totals table spans across the remaining 4 columns (Unite, Qte, P.U, MONTANT) -->
             <td colspan="4" style="border: none; padding: 0;">
                 <div class="totals-section" style="display: flex; justify-content: flex-end;">
                     <table class="totals-table" style="width: 100%;">
                         <tr>
                             <td class="label-cell" style="width: 50%;">TOTAL</td>
-                            <td class="value-cell" style="width: 50%;">
-                                {{ "{:,.2f}".format(total)
-                                    .replace(",", "X")
-                                    .replace(".", ",")
-                                    .replace("X", ".") }}
-                            </td>
+                            <td class="value-cell" style="width: 50%;">{{ total_formatted }}</td>
                         </tr>
                         <tr>
                             <td class="label-cell">TVA 19%</td>
-                            <td class="value-cell">
-                                {{ "{:,.2f}".format(0)
-                                    .replace(",", "X")
-                                    .replace(".", ",")
-                                    .replace("X", ".") }}
-                            </td>
+                            <td class="value-cell">0,00</td>
                         </tr>
                         <tr class="total-ttc-row">
                             <td class="label-cell">TOTAL TTC</td>
-                            <td class="value-cell">
-                                {{ "{:,.2f}".format(total)
-                                    .replace(",", "X")
-                                    .replace(".", ",")
-                                    .replace("X", ".") }}
-                            </td>
+                            <td class="value-cell">{{ total_formatted }}</td>
                         </tr>
                     </table>
                 </div>
