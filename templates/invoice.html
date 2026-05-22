@@ -86,13 +86,14 @@ body {
 
 /* ================= TOP INFO ================= */
 .info-row {
-    display: grid;
-    grid-template-columns: 1fr 70mm;
-    gap: 10mm;
+    width: 100%;
     margin-bottom: 6mm;
+    overflow: hidden;
 }
 
 .supplier-info {
+    float: left;
+    width: 55%;
     font-size: 12px;
     font-weight: 650;
     line-height: 1.6;
@@ -104,6 +105,8 @@ body {
 }
 
 .invoice-meta {
+    float: right;
+    width: 40%;
     display: flex;
     flex-direction: column;
 }
@@ -300,6 +303,7 @@ tbody tr {
         </div>
     </div>
 
+    <div style="clear: both;"></div>
 </div>
 
 <!-- MAIN TABLE -->

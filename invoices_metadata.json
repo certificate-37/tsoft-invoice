@@ -1,0 +1,74 @@
+{
+  "1": {
+    "id": 1,
+    "client": "fg",
+    "date": "22/05/2026 12:38:09",
+    "total": 1500,
+    "items": [
+      {
+        "id": 1779449882421,
+        "name": "rhgth",
+        "qty": 1,
+        "unit_price": 1500,
+        "subtotal": 1500,
+        "unit_price_formatted": "1 500,00",
+        "subtotal_formatted": "1 500,00"
+      }
+    ],
+    "file_path": "/home/student/invoice_bot/invoices/invoice_1.pdf"
+  },
+  "2": {
+    "id": 2,
+    "client": "hello",
+    "date": "22/05/2026 12:43:46",
+    "total": 8500,
+    "items": [
+      {
+        "id": 1779450213408,
+        "name": "keloo",
+        "qty": 1,
+        "unit_price": 8500,
+        "subtotal": 8500,
+        "unit_price_formatted": "8 500,00",
+        "subtotal_formatted": "8 500,00"
+      }
+    ],
+    "file_path": "/home/student/invoice_bot/invoices/invoice_2.pdf"
+  },
+  "3": {
+    "id": 3,
+    "client": "gg",
+    "date": "22/05/2026 12:45:22",
+    "total": 500,
+    "items": [
+      {
+        "id": 1779450315233,
+        "name": "dfd",
+        "qty": 1,
+        "unit_price": 500,
+        "subtotal": 500,
+        "unit_price_formatted": "500,00",
+        "subtotal_formatted": "500,00"
+      }
+    ],
+    "file_path": "/home/student/invoice_bot/invoices/invoice_3.pdf"
+  },
+  "4": {
+    "id": 4,
+    "client": "moncef",
+    "date": "22/05/2026 12:47:09",
+    "total": 10000,
+    "items": [
+      {
+        "id": 1779450412936,
+        "name": "hello world",
+        "qty": 1,
+        "unit_price": 10000,
+        "subtotal": 10000,
+        "unit_price_formatted": "10 000,00",
+        "subtotal_formatted": "10 000,00"
+      }
+    ],
+    "file_path": "/home/student/invoice_bot/invoices/invoice_4.pdf"
+  }
+}
