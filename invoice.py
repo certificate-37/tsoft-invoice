@@ -1,5 +1,5 @@
 from jinja2 import Environment, FileSystemLoader
-from weasyprint import HTML
+from weasyprint import HTML, CSS
 from datetime import datetime
 import os
 
